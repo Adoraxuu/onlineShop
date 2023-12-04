@@ -1,0 +1,22 @@
+<%# <form action="/products" method="post"
+data-turbo="false">
+<div class="title">
+  <label for="title">Products</label>
+  <input name="product[products]" type="text" id="title" class="border-2 border-black"></input>
+</div>
+
+<input type="hidden"
+         name="authenticity_token"
+         value="<%= form_authenticity_token %>">
+
+<div class="description">
+  <label for="description">Description</label>
+  <textarea name="product[description]" id="description" class="border-2 border-black"></textarea>
+</div>
+
+<div class="price">
+  <label for="price">Price</label>
+  <input name="product[price]" type="number" id="price" class="border-2 border-black" />
+</div>
+  <button>送出</button>
+</form> %>

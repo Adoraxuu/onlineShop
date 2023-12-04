@@ -1,0 +1,34 @@
+Rails.application.routes.draw do
+
+  resources :products do
+    resources :comments, shallow: true
+  end
+
+  # 原理：
+  # /products/2 show
+  # POST /products/2/comments, to: "comments#create"
+  # DELETE /comments/3, to: "comments#destroy"
+
+  resource :users, except: [:destroy] do
+    collection do
+      get :sign_in #登入表單
+    end
+  resource :sessions, only: [:create, :destroy]
+  end
+# pages = pages controller
+  # about = action /method
+  # get '/products/new', to: 'products#new', as: :new_product
+  # post '/products', to: 'products#create'
+  # get '/products', to: 'products#index'
+  # get '/products/:id', to: 'products#show', as: :product
+  # patch '/products/:id', to: 'products#update'
+  # get '/products/:id/edit', to: 'products#edit', as: :edit_product
+
+  root 'products#index'
+
+  get '/about', to: 'pages#about', as: :about  # about_path
+  get '/privacy', to: 'pages#privacy'
+  get '/users/sign_in', to: 'users#sign_in'
+
+
+end

@@ -1,0 +1,43 @@
+
+<h1><%= @product.title %></h1>
+<% if  user_signed_in? and current_user.own?(@product) %>
+  <%= link_to "編輯商品", edit_product_path, class: 'ink-btn' %>
+  <%# product_path(@product) 是指向  # put '/products/:id', to: 'products#update' %>
+  <%= link_to '刪除商品', product_path(@product), class: 'ink-btn ink-btn-danger', data: {
+   turbo_method: 'delete',
+   turbo_confirm: '確認刪除？'
+ } %>
+ <%#rails7寫法改變%>
+ <%# 也可以寫成 button_to '刪除', product_pat(@product), class=''%>
+<% end %>
+
+
+
+
+
+
+<h3>售價:<%= @product.price %>元</h3>
+
+<%#<p>描述:<%= @product.description.gsub("\n",'<div />').html_safe </p>%>
+
+<p>描述:<%= simple_format(@product.description) %></p>
+
+<section>
+
+  <h3 class="text-xl">留言</h3>
+
+    <%= form_with(model: [@product, @comment],
+                data: { turbo: false, local: false }) do |f| %>
+    <div>
+    <%= f.text_area :content, class: 'input-field' %>
+    </div>
+    <%= f.submit %>
+  <% end %>
+  </section>
+
+<ul>
+<% @comments.each do |comment| %>
+<li><%= comment.content %></li>
+<% end %>
+<ul>
+
