@@ -1,29 +1,11 @@
 # README
 
+- 此為練習檔案，主要為重複練習建置網頁的過程
+
 ## Setup steps
 
 - run `bundle install` and `yarn install`
 - run `rails db:setup`
 - run `bin/dev`, and check `http://localhost:3000`
 
-- This README would normally document whatever steps are necessary to get the application up and running.
 
-Things you may want to cover:
-
-- Ruby version
-
-- System dependencies
-
-- Configuration
-
-- Database creation
-
-- Database initialization
-
-- How to run the test suite
-
-- Services (job queues, cache servers, search engines, etc.)
-
-- Deployment instructions
-
-- ...
