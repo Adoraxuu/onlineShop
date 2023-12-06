@@ -1,12 +1,14 @@
 class ProductsController < ApplicationController
 
-  before_action :find_product, only: [:show, :edit, :update, :destroy] #推薦使用
+  before_action :find_product, only: [:show] #推薦使用
   before_action :authenticate_user!, except: [:index, :show]
   before_action :find_owned_product, only: [:edit, :update, :destroy]
   # before_action :find_product, except: [:index, :new, :create]
 
 
   # 在程式執行前做
+
+
 
   def index
     @products = Product.all.order(id: :desc)

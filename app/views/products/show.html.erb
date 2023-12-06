@@ -7,8 +7,8 @@
    turbo_method: 'delete',
    turbo_confirm: '確認刪除？'
  } %>
- <%#rails7寫法改變%>
- <%# 也可以寫成 button_to '刪除', product_pat(@product), class=''%>
+
+    <%= link_to "喜歡", "#", data:{controller:"like", action:"click->like#toggle", id:@product.id, like_target: "btn"}, class:"ink-btn" %>
 <% end %>
 
 
