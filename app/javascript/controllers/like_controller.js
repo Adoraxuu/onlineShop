@@ -1,34 +1,39 @@
 import { Controller } from "@hotwired/stimulus"
+import { patch } from '@rails/request.js'
+
+const LIKE_LABEL = "喜歡";
+const UNLIKE_LABEL = "取消";
 
 // Connects to data-controller="like"
 export default class extends Controller {
   static targets = ["btn"];
 
-  toggle(e) {
-    e.preventDefault();
-    console.log(this.btnTarget);
-    const { id } = this.element.dataset;
-    const url = `/api/v1/products/${id}/like`;
-    const token = document.querySelector("meta[name='csrf-token']").content;
-
-
-    
-    fetch (url, {
-      method: "PATCH",
-      headers: { "X-CSRF-Token" : token },
-    })
-    .then((result) => {
-      return result.json();
-    })
-    .then (({ status }) =>{
-      if (status == "liked"){
-        this.btnTarget.textContent = "取消";
-      }else {
-        this.btnTarget.textContent = "喜歡";
-      }
-    })
-    .catch((err)=>{
-      console.log(err);
-    })
+  connect(){
+    const {liked} = this.element.dataset;
+    if (liked == "true"){
+    this.btnTarget.textContent = UNLIKE_LABEL;
+    }else{
+    this.btnTarget.textContent = LIKE_LABEL;
+    }
   }
+
+  async toggle(e) {
+    e.preventDefault();
+    const { id } = this.element.dataset;
+    const url = `/api/v1/products/${id}/like.json`;
+    const response = await patch(url);
+
+    if (response.ok){
+      const { status } = await response.json;
+
+      if (status == "liked"){
+        this.btnTarget.textContent = UNLIKE_LABEL;
+      } else {
+        this.btnTarget.textContent = LIKE_LABEL;
+      } 
+    } else {
+      const { url } = await response.json;
+      window.location.href = url;
+  }
+}
 }

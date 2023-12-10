@@ -5,7 +5,15 @@ class Api::V1::ProductsController < ApplicationController
 
 
   def like
-    render json: {id: params[:id], status: "liked"}
+    if current_user.liked?(@product)
+      #移除喜歡
+      current_user.liked_products.destroy(@product)
+      render json: {id: params[:id], status:'unliked'}
+      else
+      #加入喜歡
+      current_user.liked_products << @product
+      render json: {id: params[:id], status: 'liked'}
+      end
   end
 
   private

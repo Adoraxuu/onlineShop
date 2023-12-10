@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-
 helper_method :current_user, :user_signed_in?
 
   rescue_from ActiveRecord::RecordNotFound,
@@ -21,7 +20,18 @@ end
 def authenticate_user!
   #如果沒有登入就把你踢走
   if not user_signed_in?
-    redirect_to sign_in_users_path ,alert: '請先登入帳號'
+    respond_to do |format|
+      format.html {
+        redirect_to sign_in_users_path, alert: '請先登入帳號'
+      }
+
+      format.json {
+        render json: {
+          message: '請先登入帳號',
+          url: sign_in_users_path
+        }, status: 401
+      }
+    end
   end
 end
 

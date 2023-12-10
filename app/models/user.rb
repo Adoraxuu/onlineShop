@@ -7,6 +7,9 @@ class User < ApplicationRecord
   # before_save :encrypt_password
   #after_save :send_text
 
+  has_many :likes_products
+  has_many :liked_products, through: :likes_products, source: :product
+
   def self.login(data)
     email = data[:email]
     password = Digest::SHA256.hexdigest("*xx#{data[:password]}yy-")
@@ -16,6 +19,10 @@ class User < ApplicationRecord
 
   def own?(p)
     product_ids.include?(p.id)
+  end
+
+  def liked?(p)
+    liked_product_ids.include?(p.id)
   end
 
   private

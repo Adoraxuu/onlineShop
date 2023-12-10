@@ -7,14 +7,22 @@
    turbo_method: 'delete',
    turbo_confirm: '確認刪除？'
  } %>
-
-    <%= link_to "喜歡", "#", data:{controller:"like", action:"click->like#toggle", id:@product.id, like_target: "btn"}, class:"ink-btn" %>
 <% end %>
 
 
+<%= Time.now.to_i %>
+<h1 class="flex items-center gap-2 text-2xl">
+
+  <div data-controller="like" data-liked="<%= current_user&.liked?(@product) %>" data-id="<%= @product.id %>">
+    <%= link_to '喜歡', '#', class: 'ink-btn', data: {
+      action: 'like#toggle',
+      like_target: 'btn'
+    } %>
+  </div>
+</h1>
 
 
-
+<%= image_tag @product.cover.variant(:cover) if @product.cover.attached? %>
 
 <h3>售價:<%= @product.price %>元</h3>
 
