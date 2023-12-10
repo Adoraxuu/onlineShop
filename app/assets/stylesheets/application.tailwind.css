@@ -22,7 +22,7 @@
 }
 
 .ink-btn {
-  @apply bg-slate-700 px-3 text-white rounded py-2 inline-block;
+  @apply bg-slate-700 px-3 text-white rounded py-2 inline-bloc text-center;
 }
 
 .ink-btn-danger {

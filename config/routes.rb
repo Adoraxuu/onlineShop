@@ -19,6 +19,9 @@ end
   # POST /products/2/comments, to: "comments#create"
   # DELETE /comments/3, to: "comments#destroy"
 
+
+  resource :cart, only: [:show, :create, :update, :destroy]
+
   resource :users, except: [:destroy] do
     collection do
       get :sign_in #登入表單

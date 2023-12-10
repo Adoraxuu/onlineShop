@@ -7,6 +7,8 @@ class User < ApplicationRecord
   # before_save :encrypt_password
   #after_save :send_text
 
+  has_one :cart
+
   has_many :likes_products
   has_many :liked_products, through: :likes_products, source: :product
 

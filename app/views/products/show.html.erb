@@ -1,5 +1,4 @@
 
-<h1><%= @product.title %></h1>
 <% if  user_signed_in? and current_user.own?(@product) %>
   <%= link_to "編輯商品", edit_product_path, class: 'ink-btn' %>
   <%# product_path(@product) 是指向  # put '/products/:id', to: 'products#update' %>
@@ -10,38 +9,50 @@
 <% end %>
 
 
-<%= Time.now.to_i %>
-<h1 class="flex items-center gap-2 text-2xl">
 
-  <div data-controller="like" data-liked="<%= current_user&.liked?(@product) %>" data-id="<%= @product.id %>">
-    <%= link_to '喜歡', '#', class: 'ink-btn', data: {
-      action: 'like#toggle',
-      like_target: 'btn'
-    } %>
+<section class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+  <div>
+    <%= image_tag @product.cover.variant(:cover) if @product.cover.attached? %>
   </div>
-</h1>
+  <div class="col-span-1 p-3">
+    <%= form_with   url: cart_path,
+                    data:{turbo:false},
+                    class: 'flex flex-col gap-3' do |form| %>
+    <%= form.hidden_field :id, value: @product.id %> 
+    
+      <h3 class="text-2xl"><%= @product.title %></h3>
+      <div>
+        <%= form.select :quantity, (1..10).to_a, {}, class: 'text-lg border border-slate-300 p-2' %>
+      </div>
+      <h3>售價:<%= @product.price %>元</h3>
+      <p>描述:<%= simple_format(@product.description) %></p>
+        <div data-controller="like" data-liked="<%= current_user&.liked?(@product) %>" data-id="<%= @product.id %>">
+          <%= link_to '喜歡', '#', class: 'ink-btn w-full text-center', data: {
+            action: 'like#toggle',
+            like_target: 'btn'
+          } %>
+        </div>
+        <div>
+          <%= form.submit '加入購物車', class: 'ink-btn w-full' %>
+        </div>
+    <% end %>
+  </div>
 
-
-<%= image_tag @product.cover.variant(:cover) if @product.cover.attached? %>
-
-<h3>售價:<%= @product.price %>元</h3>
-
-<%#<p>描述:<%= @product.description.gsub("\n",'<div />').html_safe </p>%>
-
-<p>描述:<%= simple_format(@product.description) %></p>
+</section>
 
 <section>
-
   <h3 class="text-xl">留言</h3>
-
-    <%= form_with(model: [@product, @comment],
+  <%= form_with(model: [@product, @comment],
                 data: { turbo: false, local: false }) do |f| %>
-    <div>
-    <%= f.text_area :content, class: 'input-field' %>
-    </div>
-    <%= f.submit %>
-  <% end %>
-  </section>
+  <div>
+      <%= f.text_area :content, class: 'input-field' %>
+  </div>
+      <%= f.submit '留言', class:'ink-btn' %>
+      <% end %>
+</section>
+
+
+
 
 <ul>
 <% @comments.each do |comment| %>
