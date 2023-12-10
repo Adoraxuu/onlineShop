@@ -1,11 +1,21 @@
 class ApplicationController < ActionController::Base
-helper_method :current_user, :user_signed_in?
+helper_method :current_user, :user_signed_in?, :current_cart?
 
   rescue_from ActiveRecord::RecordNotFound,
   with: :not_fund
   # 只要在controller出現這個錯誤，我就用not_fund方法
 
 private
+
+def current_cart
+  if user_signed_in?
+    #memorization
+    @__cart__ ||= current_user.cart || current_user.create_cart
+    #調不到車就做一個給你
+  else
+    Cart.new #什麼都沒有就給一台新車
+  end
+end
 
 def current_user
   #memorization
