@@ -11,6 +11,7 @@ class ProductsController < ApplicationController
 
 
   def index
+    flash[:notice] = 123
     @products = Product.all.order(id: :desc)
     # @products= Product.where(deleted_at: nil).order(id: :desc)
     # @products = Product.order(id: :desc)
