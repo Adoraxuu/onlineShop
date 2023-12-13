@@ -3,6 +3,7 @@
     <div class="flex items-center gap-2">
     <h1 class="text-2xl font-bold"><%= link_to "墨韻坊", root_path %></h1>
     <ul class="flex gap-3">
+
         <%= link_to  "新增商品", new_product_path if user_signed_in? %>
         <li><%= link_to "商品列表", products_path %></li>
         <li><%= link_to "關於", about_path %></li>
@@ -11,6 +12,9 @@
     </div>
     <div>
     <ul class="flex gap-3">
+      <li>
+        <i class="fa-solid fa-cart-shopping fa-lg"></i>
+      </li>
       <% if user_signed_in? %>
         <li><%= current_user.email %></li>
         <li><%= link_to '登出', users_sessions_path, data: { turbo_method: 'delete' } %></li>
