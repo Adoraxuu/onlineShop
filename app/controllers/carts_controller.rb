@@ -2,6 +2,9 @@ class CartsController < ApplicationController
   before_action :authenticate_user!
   before_action :find_product, only: [:create]
 
+  def show
+  end
+
   def create
     #render html:params 查看送出的東西
     item = CartItem.new(product: @product, quantity: params[:quantity])

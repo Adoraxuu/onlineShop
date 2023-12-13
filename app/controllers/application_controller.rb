@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-helper_method :current_user, :user_signed_in?, :current_cart?
+helper_method :current_user, :user_signed_in?, :current_cart
 
   rescue_from ActiveRecord::RecordNotFound,
   with: :not_fund
