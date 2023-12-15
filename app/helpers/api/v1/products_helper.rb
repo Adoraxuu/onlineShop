@@ -1,2 +1,8 @@
-module Api::V1::ProductsHelper
+# frozen_string_literal: true
+
+module Api
+  module V1
+    module ProductsHelper
+    end
+  end
 end

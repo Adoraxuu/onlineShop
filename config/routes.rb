@@ -1,35 +1,35 @@
-Rails.application.routes.draw do
+# frozen_string_literal: true
 
+Rails.application.routes.draw do
   resources :products do
-    resources :comments, shallow: true, only: [:create, :destroy]
+    resources :comments, shallow: true, only: %i[create destroy]
   end
 
   namespace :api do
     namespace :v1 do
-        resources :products, only: [] do
-            member do
-                patch :like #/api/v1/products/:id/like
-            end
+      resources :products, only: [] do
+        member do
+          patch :like # /api/v1/products/:id/like
         end
+      end
     end
-end
+  end
 
   # 原理：
   # /products/2 show
   # POST /products/2/comments, to: "comments#create"
   # DELETE /comments/3, to: "comments#destroy"
 
-
-  resource :cart, only: [:show, :create, :destroy]
+  resource :cart, only: %i[show create destroy]
   resources :cart_items, only: [:destroy]
 
   resource :users, except: [:destroy] do
     collection do
-      get :sign_in #登入表單
+      get :sign_in # 登入表單
     end
-  resource :sessions, only: [:create, :destroy]
+    resource :sessions, only: %i[create destroy]
   end
-# pages = pages controller
+  # pages = pages controller
   # about = action /method
   # get '/products/new', to: 'products#new', as: :new_product
   # post '/products', to: 'products#create'
@@ -40,9 +40,7 @@ end
 
   root 'products#index'
 
-  get '/about', to: 'pages#about', as: :about  # about_path
+  get '/about', to: 'pages#about', as: :about # about_path
   get '/privacy', to: 'pages#privacy'
   get '/users/sign_in', to: 'users#sign_in'
-
-
 end

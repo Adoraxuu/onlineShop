@@ -10,7 +10,8 @@
     "@rails/request.js": "^0.0.9",
     "autoprefixer": "^10.4.16",
     "esbuild": "^0.19.5",
-    "postcss": "^8.4.31"
+    "postcss": "^8.4.31",
+    "qrcode": "^1.5.3"
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=/assets",

@@ -1,14 +1,12 @@
-class ProductsController < ApplicationController
+# frozen_string_literal: true
 
-  before_action :find_product, only: [:show] #推薦使用
-  before_action :authenticate_user!, except: [:index, :show]
-  before_action :find_owned_product, only: [:edit, :update, :destroy]
+class ProductsController < ApplicationController
+  before_action :find_product, only: [:show] # 推薦使用
+  before_action :authenticate_user!, except: %i[index show]
+  before_action :find_owned_product, only: %i[edit update destroy]
   # before_action :find_product, except: [:index, :new, :create]
 
-
   # 在程式執行前做
-
-
 
   def index
     @products = Product.all.order(id: :desc)
@@ -18,17 +16,15 @@ class ProductsController < ApplicationController
     # @products = Product.find_by(id: :desc)
     # Product
     # 不知道要寫什麼，寫all
-
   end
 
   def show
     @comment = Comment.new
     @comments = @product.comments
-    #把.order(id: :desc)改寫到model
+    # 把.order(id: :desc)改寫到model
   end
 
-  def edit
-  end
+  def edit; end
 
   def new
     @product = Product.new
@@ -41,7 +37,6 @@ class ProductsController < ApplicationController
     else
       render :edit
     end
-
   end
 
   def create
@@ -52,27 +47,27 @@ class ProductsController < ApplicationController
 
     if @product.save
       # flash[:notice] = "新增商品成功"
-      redirect_to root_path, notice:'新增商品成功'
+      redirect_to root_path, notice: '新增商品成功'
     else
       render :new
-      #借 app/views/products/new.html.erb渲染一次，所以表格內東西還在
+      # 借 app/views/products/new.html.erb渲染一次，所以表格內東西還在
       # redirect_to new_product_path
     end
   end
 
-def destroy
-  find_product
-  @product.destroy
-  redirect_to root_path, notice: '商品已刪除'
-  # 改在modal寫以下
-  # @product.update(deleted_at: Time.current)
-  # redirect_to root_path, alert: '商品已刪除'
-end
+  def destroy
+    find_product
+    @product.destroy
+    redirect_to root_path, notice: '商品已刪除'
+    # 改在modal寫以下
+    # @product.update(deleted_at: Time.current)
+    # redirect_to root_path, alert: '商品已刪除'
+  end
 
-private
+  private
 
   # render html: params
-# Strong Parameter
+  # Strong Parameter
   def product_params
     params.require(:product)
           .permit(:title, :description, :price, :onsale, :cover)
